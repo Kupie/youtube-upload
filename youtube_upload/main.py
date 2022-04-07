@@ -34,10 +34,7 @@ from . import lib
 from . import playlists
 
 # http://code.google.com/p/python-progressbar (>= 2.3)
-try:
-    import progressbar2
-except ImportError:
-    progressbar = None
+import progressbar
 
 
 class InvalidCategory(Exception): pass
@@ -148,6 +145,7 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
             "privacyStatus": ("private" if options.publish_at else options.privacy),
             "publishAt": options.publish_at,
             "license": options.license,
+            "selfDeclaredMadeForKids": options.self_declared_made_for_kids,
 
         },
         "recordingDetails": {
@@ -233,6 +231,8 @@ def main(arguments):
                       help='Video tags (separated by commas: "tag1, tag2,...")')
     parser.add_option('', '--privacy', dest='privacy', metavar="STRING",
                       default="public", help='Privacy status (public | unlisted | private)')
+    parser.add_option('', '--self_declared_made_for_kids', dest='self_declared_made_for_kids', metavar="string",
+                      default=False, help='selfDeclaredMadeForKids')
     parser.add_option('', '--publish-at', dest='publish_at', metavar="datetime",
                       default=None, help='Publish date (ISO 8601): YYYY-MM-DDThh:mm:ss.sZ')
     parser.add_option('', '--license', dest='license', metavar="string",
